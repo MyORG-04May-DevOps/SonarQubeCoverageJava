@@ -18,6 +18,7 @@ jobs:
             - name: Test with Maven
               run: mvn test
     code_quality_java:
+        needs: test_java_code
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code/clone the repository on the runner
@@ -32,4 +33,13 @@ jobs:
 # create a step to run SonarQube analysis using the SonarScanner for Maven
 # analysis will be performed on the code and the results will be sent to the SonarQube cloud.
             - name: Run SonarQube analysis
-              run: mvn sonar:sonar -Dsonar.projectKey=sonar-demo-org-may2026_sonar-demo-may-project -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=sonar-demo-org-may2026 -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+              run: mvn sonar:sonar -Dsonar.projectKey=sonar-demo-org-may2026_sonar-demo-may-project -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=sonar-demo-org-may2026 -Dsonar.token=$SONAR_TOKEN
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+
+
+
+            
